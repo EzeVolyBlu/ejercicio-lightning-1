@@ -10,7 +10,7 @@ public class CasesCloserControllerTest {
     
     public class IdMessageJSON {
         public String id;
-        public String message;
+        public String closingReason;
 	}
     
     @testSetup
@@ -96,11 +96,12 @@ public class CasesCloserControllerTest {
 
     @isTest static void testClosingCasesAndChangingMessagesFromAccount(){
 
-        List<Id> allTheAccountsIds = returnAllTheAccountsIds();
-        List<List<Case>> listOfListOfOpenCasesById = New List<List<Case>>();
+
 		List<Case> updatedOpenCases;
+        List<List<Case>> listOfListOfOpenCasesById = New List<List<Case>>();
         String[] messageByIdJSONList = new List<String>();
         IdMessageJSON newIdMessageJSONObj = new IdMessageJSON();
+        List<Id> allTheAccountsIds = returnAllTheAccountsIds();
         for(Id accId : allTheAccountsIds){
             listOfListOfOpenCasesById.add(CasesCloserController.getOpenCasesByAcc(accId)); 
          }
@@ -108,11 +109,11 @@ public class CasesCloserControllerTest {
         Test.startTest();
         for(List<Case> listOfOpenCasesById :  listOfListOfOpenCasesById){
             for(Case openCaseById : listOfOpenCasesById){
-                newIdMessageJSONObj.message = 'Closed for testing';
+                newIdMessageJSONObj.closingReason = 'Closed for testing';
 				newIdMessageJSONObj.id = openCaseById.Id;
                 messageByIdJSONList.add(JSON.serialize(newIdMessageJSONObj));
             }
-            updatedOpenCases = CasesCloserController.closeCasesAndAddClosingReason(messageByIdJSONList);
+            updatedOpenCases = CasesCloserController.updateCases(messageByIdJSONList);
             messageByIdJSONList.clear();
         }
         Test.stopTest();

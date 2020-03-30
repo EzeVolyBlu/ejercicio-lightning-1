@@ -1,0 +1,101 @@
+<aura:component controller="CasesCloserController">
+
+  <aura:attribute name="accountsList" type="List" default="[]"/>
+  <aura:attribute name="openCasesList" type="List" default="[]"/>
+  <aura:attribute name="closedCasesList" type="List" default="[]"/>
+  <aura:attribute name="submitButtonDisabled" type="boolean" default="true"/>
+  <aura:attribute name="v.errorButtonVisible" type="boolean" default="false"/>
+  <aura:attribute name="errors" type="Object"/>
+  <aura:attribute name="spinner" type="boolean" default="FALSE"/>
+
+
+  
+  
+  <aura:handler name="init" 
+                  value="{!this}" 
+                  action="{!c.init}"
+  />
+
+  <aura:handler name="spinnerVisible" 
+                  event="c:accountSelected"
+                  action="{!c.handleSpinnerEvent}"
+  />
+
+  <aura:handler name="selectAccount"  
+                  event="c:accountSelected"
+                  action="{!c.handleAccountSelected}"
+  />
+  
+  <aura:handler name="closedCases" 
+                  event="c:closedCasesEvent"
+                  action="{!c.handleClosedCases}"
+  />
+
+  <aura:handler name="disableButton" 
+                  event="c:manageSubmitButtonEvent"
+                  action="{!c.manageSubmitButton}"
+  />
+
+
+
+
+  <lightning:layout class="slds-page-header slds-page-header--object-home">
+      <lightning:layoutItem>
+          <lightning:icon iconName="standard:case_change_status" alternativeText="Cases closer"/>
+      </lightning:layoutItem>
+      <lightning:layoutItem padding="horizontal-small">
+              <h1 class="slds-text-heading--label">Cases closer</h1>
+      </lightning:layoutItem>
+  </lightning:layout>
+
+
+    <lightning:layoutItem padding="around-small" size="6">
+      <div aura:id="div1" onclick="{!c.closemessage}"></div>
+      <div aura:id="div2"></div>
+    </lightning:layoutItem>
+
+
+
+    <lightning:layoutItem padding="around-small" size="6">
+      <c:CasesCloserDropdown accounts="{!v.accountsList}" />
+    </lightning:layoutItem>
+    <lightning:layoutItem padding="around-small" size="6">
+      <lightning:button variant="success" 
+                          label="Close cases" 
+                          title="Success" 
+                          onclick="{! c.submitCases }" 
+                          disabled="{!v.submitButtonDisabled}"
+      />  
+    </lightning:layoutItem>
+    
+    <lightning:layoutItem padding="around-small" size="9">
+      <c:CasesCloserTable data="{!v.openCasesList}" 
+                          errors="{! v.errors}" 
+                          errorButtonVisible="{!v.errorButtonVisible}"
+      />
+    </lightning:layoutItem>
+    
+      <aura:if isTrue="{!v.spinner}">
+        <div aura:id="spinnerId" class="slds-spinner_container">
+            <div class="slds-spinner--brand  slds-spinner slds-spinner--large slds-is-relative" role="alert">
+                <span class="slds-assistive-text">Loading...</span>
+                <div class="slds-spinner__dot-a"></div>
+                <div class="slds-spinner__dot-b"></div>
+            </div>
+          </div>
+      </aura:if>
+      
+    
+      
+
+
+
+  <!-- / NEW EXPENSE FORM -->
+
+
+    
+
+
+    
+
+</aura:component>

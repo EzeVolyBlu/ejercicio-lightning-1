@@ -1,0 +1,41 @@
+<aura:component>
+
+    <aura:attribute name="spinner" type="boolean" default="false"/>
+    <aura:attribute name="data" type="List" default="[]"/>
+    <aura:attribute name="idCasesSelected" type="List" />
+    
+    <aura:attribute name="errorButtonVisible" type="boolean" default="false"/> 
+    <aura:attribute name="columns" type="List"/>
+    <aura:attribute name="errors" type="Object"/>
+    <aura:attribute name="draftValues" type="Object" default="[]"/>
+
+    <aura:handler name="init" value="{! this }" action="{! c.init }"/>
+    
+    <aura:registerEvent name="closedCases" type="c:closedCasesEvent" />
+    <aura:registerEvent name="disableButton" type="c:manageSubmitButtonEvent" />
+
+    <lightning:layout>
+        <lightning:layoutItem padding="around-small" size="9">
+
+            <aura:if isTrue="{!v.errorButtonVisible}">
+                <lightning:button label="Remove error" onclick="{!c.removeError}"/>
+            </aura:if> 
+
+            <lightning:datatable 
+                columns="{! v.columns }"
+                data="{! v.data }"
+                keyField="Id"
+                onsave="{! c.handleSave }"
+                showRowNumberColumn="false"
+                draftValues="{! v.draftValues }"
+                onrowselection="{! c.handleSelected }"
+                errors="{!v.errors}"
+                oncancel="{! c.tablechanged }"
+
+            />
+
+        </lightning:layoutItem>
+
+    </lightning:layout>
+
+</aura:component>	
