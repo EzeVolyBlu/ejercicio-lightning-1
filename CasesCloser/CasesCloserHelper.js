@@ -1,32 +1,9 @@
 ({
-    fetchAccounts : function(component, event, helper) {
-        
-        var action = component.get("c.fetchAllAccounts");
-        var accounts = [];
-        
-        action.setParams({
-        });
-        action.setCallback(this, function(response){
-            var state = response.getState();
-            if (state === "SUCCESS") {
-                response.getReturnValue().map( value => {
-                    accounts.push({
-                        value:value.Id, 
-                        label:value.Name
-                    })
-            })
-            component.set("v.spinner", false); 
-            component.set("v.accountsList", accounts);
-        	}
-		});
-        $A.enqueueAction(action);
-    },
-
-    handleAccountSelected: function (component, event, helper) {
+    getOpenCasesByAccId: function (component, event, helper) {
 
         var action = component.get("c.getOpenCasesByAcc");
         action.setParams({
-            accId: event.getParam("accountId")
+            accId: component.get("v.recordId")
         });
         action.setCallback(this, function(response) {
             var state = response.getState();

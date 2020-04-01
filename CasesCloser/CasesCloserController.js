@@ -2,11 +2,7 @@
     //load account select in the dropdown
     init: function (component, event, helper) {
         component.set("v.spinner", true); 
-        helper.fetchAccounts(component, event, helper);
-    },
-    handleAccountSelected: function (component, event, helper) {
-        component.set("v.spinner", true); 
-		helper.handleAccountSelected(component, event, helper);
+        helper.getOpenCasesByAccId(component, event, helper);
     },
     handleClosedCases: function (component, event, helper) {
         component.set('v.closedCasesList', event.getParam("closedCases"));

@@ -1,3 +1,0 @@
-<aura:event type="COMPONENT">
-    <aura:attribute name="accountId" type="String"/>
-</aura:event>
